@@ -72,7 +72,7 @@ export default function AppBar({ ...others }) {
                 Dashboard
               </Button>
               <Button color="inherit" component={Link} href="https://codedthemes.gitbook.io/berry" target="_blank">
-                Documentation
+                
               </Button>
               <Button component={Link} href="https://links.codedthemes.com/hsqll" disableElevation variant="contained" color="secondary">
                 Purchase Now
