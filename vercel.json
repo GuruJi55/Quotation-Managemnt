@@ -1,21 +1,8 @@
 {
-    "builds": [
+    "rewrites": [
       {
-        "src": "package.json",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "dist"
-        }
-      }
-    ],
-    "routes": [
-      {
-        "src": "/free/(.*)",
-        "dest": "/free/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/free/index.html"
+        "source": "/free/(.*)",
+        "destination": "/free/index.html"
       }
     ]
   }
