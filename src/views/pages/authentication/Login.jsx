@@ -37,7 +37,7 @@ export default function Login() {
                       <Grid>
                         <Stack spacing={1} sx={{ alignItems: 'center', justifyContent: 'center' }}>
                           <Typography gutterBottom variant={downMD ? 'h3' : 'h2'} sx={{ color: '#003366', fontWeight: 'bold' }} >
-                           VDA Quotation Management Software
+                            Quotation Management Software
                           </Typography>
                           <Typography variant="caption" sx={{ fontSize: '16px', textAlign: { xs: 'center', md: 'inherit' } }}>
                             
