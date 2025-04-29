@@ -115,7 +115,8 @@ function MenuCard() {
           </ListItem>
 
           {/* New menu item for Project Forms */}
-          <ListItem button component={RouterLink} to="/projectforms">
+          <ListItem component={RouterLink} to="/projectforms" button>
+
             <ListItemAvatar sx={{ mt: 0 }}>
               <Avatar
                 variant="rounded"
