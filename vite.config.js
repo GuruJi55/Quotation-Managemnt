@@ -15,7 +15,8 @@ export default defineConfig(({ mode }) => {
       host: true
     },
     build: {
-      chunkSizeWarningLimit: 1600
+      chunkSizeWarningLimit: 1600,
+      outDir: 'dist'
     },
     preview: {
       open: true,
@@ -29,7 +30,8 @@ export default defineConfig(({ mode }) => {
         '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs'
       }
     },
-    base: isDev ? '/free' : '/', // 👈 Important fix here
+    // ✅ Set base to /free/ for production deployment
+    base: isDev ? '/' : '/free/',
     plugins: [react(), jsconfigPaths()]
   };
 });
