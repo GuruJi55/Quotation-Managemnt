@@ -12,18 +12,32 @@ export default function ProjectInfoForm({ onNext }) {
     project_type: ''
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    // Clear error on change
+    setErrors({ ...errors, [e.target.name]: '' });
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    if (!form.crm_no.trim()) newErrors.crm_no = 'CRM No is required';
+    if (!form.project_name.trim()) newErrors.project_name = 'Project Name is required';
+    if (!form.country) newErrors.country = 'Country is required';
+    if (!form.project_type) newErrors.project_type = 'Project Type is required';
+    return newErrors;
   };
 
   const handleSubmit = () => {
-    // Handle form submission logic (for now just move to next tab)
-    alert('Project Info saved!');
-    
-    // Trigger the onNext function to switch to the next tab
-    if (onNext) {
-      onNext();  // This will move to the next tab
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
+
+    alert('Project Info saved!');
+    if (onNext) onNext();
   };
 
   return (
@@ -40,6 +54,8 @@ export default function ProjectInfoForm({ onNext }) {
             name="crm_no"
             value={form.crm_no}
             onChange={handleChange}
+            error={Boolean(errors.crm_no)}
+            helperText={errors.crm_no}
             variant="outlined"
           />
         </Grid>
@@ -51,6 +67,8 @@ export default function ProjectInfoForm({ onNext }) {
             name="project_name"
             value={form.project_name}
             onChange={handleChange}
+            error={Boolean(errors.project_name)}
+            helperText={errors.project_name}
             variant="outlined"
           />
         </Grid>
@@ -63,6 +81,8 @@ export default function ProjectInfoForm({ onNext }) {
             name="country"
             value={form.country}
             onChange={handleChange}
+            error={Boolean(errors.country)}
+            helperText={errors.country}
             variant="outlined"
           >
             {countries.map((c) => (
@@ -79,6 +99,8 @@ export default function ProjectInfoForm({ onNext }) {
             name="project_type"
             value={form.project_type}
             onChange={handleChange}
+            error={Boolean(errors.project_type)}
+            helperText={errors.project_type}
             variant="outlined"
           >
             {projectTypes.map((pt) => (
@@ -92,7 +114,7 @@ export default function ProjectInfoForm({ onNext }) {
             <Button
               variant="contained"
               size="large"
-              onClick={handleSubmit}  // This will trigger the onNext function
+              onClick={handleSubmit}
               sx={{ px: 4, py: 1.5 }}
             >
               Save & Next

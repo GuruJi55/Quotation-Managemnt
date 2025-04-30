@@ -3,7 +3,6 @@ import {
   Grid, TextField, Button, IconButton, MenuItem, Typography, Box, Paper
 } from '@mui/material';
 import { AddCircle, RemoveCircle } from '@mui/icons-material';
-import axios from 'axios';
 
 const roomTypeOptions = ['Standard Room', 'King Room', 'Suite Room'];
 
@@ -11,36 +10,35 @@ export default function RoomTypesForm({ projectId, onNext }) {
   const [roomTypes, setRoomTypes] = useState([{ room_type: '', count: '' }]);
   const [errors, setErrors] = useState({});
 
-  // Handle field change for room type and count
   const handleChange = (index, e) => {
     const newList = [...roomTypes];
     newList[index][e.target.name] = e.target.value;
     setRoomTypes(newList);
+
+    // Clear specific error if user updates a field
+    setErrors({ ...errors, [`${e.target.name}_${index}`]: '' });
   };
 
-  // Add a new room type entry
   const handleAdd = () => {
     setRoomTypes([...roomTypes, { room_type: '', count: '' }]);
   };
 
-  // Remove a room type entry
   const handleRemove = (index) => {
     const newList = [...roomTypes];
     newList.splice(index, 1);
     setRoomTypes(newList);
   };
 
-  // Validate form fields
   const validateForm = () => {
     let isValid = true;
-    let formErrors = {};
+    const formErrors = {};
 
     roomTypes.forEach((room, index) => {
       if (!room.room_type) {
         formErrors[`room_type_${index}`] = 'Room type is required';
         isValid = false;
       }
-      if (!room.count || room.count <= 0) {
+      if (!room.count || isNaN(room.count) || parseInt(room.count) <= 0) {
         formErrors[`count_${index}`] = 'Valid count is required';
         isValid = false;
       }
@@ -50,15 +48,11 @@ export default function RoomTypesForm({ projectId, onNext }) {
     return isValid;
   };
 
-  // Handle form submission
   const handleSubmit = () => {
-    // Handle form submission logic (for now just move to next tab)
-    alert('Project Info saved!');
-    
-    // Trigger the onNext function to switch to the next tab
-    if (onNext) {
-      onNext();  // This will move to the next tab
-    }
+    if (!validateForm()) return;
+
+    alert('Room types saved!');
+    if (onNext) onNext();
   };
 
   return (

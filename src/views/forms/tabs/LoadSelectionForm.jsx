@@ -3,42 +3,77 @@ import {
   Grid, TextField, Button, MenuItem, IconButton, Typography, Box
 } from '@mui/material';
 import { AddCircle, RemoveCircle } from '@mui/icons-material';
-import axios from 'axios';
 
 const roomTypes = ['Standard Room', 'King Room', 'Suite Room'];
 const zones = ['Bathroom', 'Balcony', 'Living Room', 'Kitchen'];
 const controlTypes = ['On/Off', 'Dimming DALI', 'Dimming CV', 'Dimming CC'];
 
 export default function LoadSelectionForm({ projectId, onNext }) {
-  const [entries, setEntries] = useState([
-    { room_type: '', zone: '', control_type: '', circuit_name: '' }
-  ]);
+  const [entries, setEntries] = useState([{ room_type: '', zone: '', control_type: '', circuit_name: '' }]);
   const [file, setFile] = useState(null);
+  const [errors, setErrors] = useState([]);
 
   const handleChange = (index, e) => {
     const updated = [...entries];
     updated[index][e.target.name] = e.target.value;
     setEntries(updated);
+
+    // Clear error for this field if updated
+    const newErrors = [...errors];
+    if (newErrors[index]) {
+      newErrors[index][e.target.name] = '';
+      setErrors(newErrors);
+    }
   };
 
   const handleAdd = () => {
     setEntries([...entries, { room_type: '', zone: '', control_type: '', circuit_name: '' }]);
+    setErrors([...errors, {}]);
   };
 
   const handleRemove = (index) => {
     const updated = [...entries];
+    const updatedErrors = [...errors];
     updated.splice(index, 1);
+    updatedErrors.splice(index, 1);
     setEntries(updated);
+    setErrors(updatedErrors);
+  };
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = [];
+
+    entries.forEach((entry, i) => {
+      const entryErrors = {};
+      if (!entry.room_type) {
+        entryErrors.room_type = 'Required';
+        valid = false;
+      }
+      if (!entry.zone) {
+        entryErrors.zone = 'Required';
+        valid = false;
+      }
+      if (!entry.control_type) {
+        entryErrors.control_type = 'Required';
+        valid = false;
+      }
+      if (!entry.circuit_name) {
+        entryErrors.circuit_name = 'Required';
+        valid = false;
+      }
+      newErrors.push(entryErrors);
+    });
+
+    setErrors(newErrors);
+    return valid;
   };
 
   const handleSubmit = () => {
-    // Handle form submission logic (for now just move to next tab)
-    alert('Project Info saved!');
-    
-    // Trigger the onNext function to switch to the next tab
-    if (onNext) {
-      onNext();  // This will move to the next tab
-    }
+    if (!validateForm()) return;
+
+    alert('Load Selection saved!');
+    if (onNext) onNext();
   };
 
   return (
@@ -63,6 +98,8 @@ export default function LoadSelectionForm({ projectId, onNext }) {
               name="room_type"
               value={entry.room_type}
               onChange={(e) => handleChange(index, e)}
+              error={!!errors[index]?.room_type}
+              helperText={errors[index]?.room_type}
             >
               {roomTypes.map((room) => (
                 <MenuItem key={room} value={room}>{room}</MenuItem>
@@ -77,6 +114,8 @@ export default function LoadSelectionForm({ projectId, onNext }) {
               name="zone"
               value={entry.zone}
               onChange={(e) => handleChange(index, e)}
+              error={!!errors[index]?.zone}
+              helperText={errors[index]?.zone}
             >
               {zones.map((z) => (
                 <MenuItem key={z} value={z}>{z}</MenuItem>
@@ -91,6 +130,8 @@ export default function LoadSelectionForm({ projectId, onNext }) {
               name="control_type"
               value={entry.control_type}
               onChange={(e) => handleChange(index, e)}
+              error={!!errors[index]?.control_type}
+              helperText={errors[index]?.control_type}
             >
               {controlTypes.map((ct) => (
                 <MenuItem key={ct} value={ct}>{ct}</MenuItem>
@@ -104,6 +145,8 @@ export default function LoadSelectionForm({ projectId, onNext }) {
               name="circuit_name"
               value={entry.circuit_name}
               onChange={(e) => handleChange(index, e)}
+              error={!!errors[index]?.circuit_name}
+              helperText={errors[index]?.circuit_name}
             />
           </Grid>
           <Grid item xs={1}>
