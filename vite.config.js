@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
       }
     },
     // ✅ Set base to /free/ for production deployment
-    base:  '/free' ,
+    base:  '/free/pages/login' ,
     plugins: [react(), jsconfigPaths()]
   };
 });
