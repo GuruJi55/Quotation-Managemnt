@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
         '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs'
       }
     },
-    // ✅ Set base to /free/ for production deployment
+    
     base:  '/free/pages/login' ,
     plugins: [react(), jsconfigPaths()]
   };

@@ -21,19 +21,14 @@ const pages = {
       icon: icons.IconKey,
       children: [
         {
-          id: 'login',
-          title: 'login',
+          id: 'logout',
+          title: 'logout',
           type: 'item',
-          url: '/pages/login',
-          target: true
-        },
-        {
-          id: 'register',
-          title: 'register',
-          type: 'item',
-          url: '/pages/register',
+          url: '/pages/logout',
           target: true
         }
+        
+        
       ]
     }
   ]
