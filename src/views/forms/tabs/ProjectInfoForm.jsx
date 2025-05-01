@@ -1,10 +1,21 @@
 import { useState } from 'react';
-import { TextField, Button, Grid, MenuItem, Box, Paper, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import {
+  TextField,
+  Button,
+  Grid,
+  MenuItem,
+  Box,
+  Paper,
+  Typography
+} from '@mui/material';
 
 const countries = ['UAE', 'India', 'Italy'];
 const projectTypes = ['full', 'mock'];
 
-export default function ProjectInfoForm({ onNext }) {
+export default function ProjectInfoForm() {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     crm_no: '',
     project_name: '',
@@ -16,8 +27,7 @@ export default function ProjectInfoForm({ onNext }) {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    // Clear error on change
-    setErrors({ ...errors, [e.target.name]: '' });
+    setErrors({ ...errors, [e.target.name]: '' }); // Clear error on input
   };
 
   const validate = () => {
@@ -36,7 +46,20 @@ export default function ProjectInfoForm({ onNext }) {
       return;
     }
 
-    alert('Project Info saved!');
+    const now = new Date();
+    const newProject = {
+      crm: form.crm_no,
+      name: form.project_name,
+      country: form.country,
+      project_type: form.project_type,
+      createdDate: now.toLocaleDateString(),
+      createdTime: now.toLocaleTimeString()
+    };
+
+    const existingProjects = JSON.parse(localStorage.getItem('projectData')) || [];
+    existingProjects.push(newProject);
+    localStorage.setItem('projectData', JSON.stringify(existingProjects));
+
     if (onNext) onNext();
   };
 
@@ -86,7 +109,9 @@ export default function ProjectInfoForm({ onNext }) {
             variant="outlined"
           >
             {countries.map((c) => (
-              <MenuItem key={c} value={c}>{c}</MenuItem>
+              <MenuItem key={c} value={c}>
+                {c}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -104,7 +129,9 @@ export default function ProjectInfoForm({ onNext }) {
             variant="outlined"
           >
             {projectTypes.map((pt) => (
-              <MenuItem key={pt} value={pt}>{pt}</MenuItem>
+              <MenuItem key={pt} value={pt}>
+                {pt}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>

@@ -1,19 +1,16 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
   Button,
-  Checkbox,
   FormControl,
-  FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Typography,
   Box
 } from '@mui/material';
 
@@ -32,7 +29,6 @@ export default function AuthLogin() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [checked, setChecked] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -90,21 +86,7 @@ export default function AuthLogin() {
         />
       </FormControl>
 
-      <Grid container sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
-        <Grid item>
-          <FormControlLabel
-            control={
-              <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} color="primary" />
-            }
-            label="Keep me logged in"
-          />
-        </Grid>
-        <Grid item>
-          <Typography variant="subtitle1" component={Link} to="/forgot-password" color="secondary" sx={{ textDecoration: 'none' }}>
-            Forgot Password?
-          </Typography>
-        </Grid>
-      </Grid>
+      {/* Removed: "Keep me logged in" and "Forgot Password?" */}
 
       <Box sx={{ mt: 2 }}>
         <AnimateButton>

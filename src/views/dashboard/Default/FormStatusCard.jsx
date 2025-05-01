@@ -1,6 +1,18 @@
-import { Card, CardContent, Typography, Box, Chip, LinearProgress, IconButton, Tooltip } from '@mui/material';
-import { blue, green, orange, red } from '@mui/material/colors';
-import { CheckCircle, HourglassEmpty, Warning } from '@mui/icons-material'; // Importing icons
+
+import React from 'react';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  LinearProgress,
+  Chip,
+  IconButton,
+  Tooltip,
+  Grid,
+} from '@mui/material';
+import { CheckCircle, HourglassEmpty, Warning } from '@mui/icons-material';
+import { green, orange, red, grey, blue } from '@mui/material/colors';
 
 const labelMap = {
   projectInfo: 'Project Info',
@@ -10,80 +22,71 @@ const labelMap = {
   hvacConfig: 'HVAC Config',
   sensorContacts: 'Sensors & Contacts',
   doorLockIntegration: 'Door Lock Integration',
-  finalIntegration: 'Final Integration'
+  finalIntegration: 'Final Integration',
 };
 
 export default function FormStatusCard({ formName, completed, progress, onClickNavigateToForm }) {
-  let statusColor = red[600];
-  let icon = <Warning sx={{ color: 'white' }} />;
-  let progressColor = orange[400];
-
-  // Change status color and icon based on form completion
-  if (completed) {
-    statusColor = green[500];
-    icon = <CheckCircle sx={{ color: 'white' }} />;
-    progressColor = green[300];
-  } else if (progress > 0) {
-    statusColor = orange[400];
-    icon = <HourglassEmpty sx={{ color: 'white' }} />;
-    progressColor = orange[300];
-  }
+  const statusColor = completed ? green[600] : progress > 0 ? orange[600] : red[600];
+  const icon = completed ? <CheckCircle /> : progress > 0 ? <HourglassEmpty /> : <Warning />;
+  const chipLabel = completed ? 'Completed' : 'In Progress';
+  const chipColor = completed ? 'success' : 'warning';
 
   return (
     <Card
       onClick={onClickNavigateToForm}
       sx={{
+        borderRadius: 3,
+        background: `linear-gradient(135deg, ${blue[500]}, ${statusColor})`,
+        transition: '0.3s',
+        boxShadow: 6,
         cursor: 'pointer',
-        background: `linear-gradient(145deg, ${statusColor}, ${blue[400]})`,
-        padding: 2,
-        boxShadow: 3,
-        borderRadius: 2,
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         '&:hover': {
-          transform: 'scale(1.05)',
-          boxShadow: 8
-        }
+          boxShadow: 12,
+          transform: 'translateY(-5px)',
+        },
       }}
     >
-      <CardContent>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="subtitle1" color="white" fontWeight="bold">
+      <CardContent sx={{ padding: 3 }}>
+        {/* Header with form name and status icon */}
+        <Grid container justifyContent="space-between" alignItems="center" mb={2}>
+          <Typography variant="h5" color="white" fontWeight={600}>
             {labelMap[formName] || formName}
           </Typography>
-          
-          <Tooltip title={completed ? 'This form is completed' : 'This form is in progress'}>
-            <IconButton sx={{ color: 'white' }} aria-label="status-icon">
-              {icon}
-            </IconButton>
+          <Tooltip title={chipLabel}>
+            <IconButton sx={{ color: 'white' }}>{icon}</IconButton>
           </Tooltip>
-        </Box>
+        </Grid>
 
-        {/* Progress bar to show completion */}
+        {/* Progress bar */}
         <LinearProgress
           variant="determinate"
           value={completed ? 100 : progress}
           sx={{
-            marginTop: 1,
-            height: 10,
-            borderRadius: 1,
-            backgroundColor: '#f0f0f0',
+            height: 6,
+            borderRadius: 3,
+            backgroundColor: grey[300],
             '& .MuiLinearProgress-bar': {
-              backgroundColor: progressColor,
+              backgroundColor: statusColor,
             },
           }}
         />
 
-        {/* Displaying chip */}
-        <Chip
-          label={completed ? 'Completed' : 'Pending'}
-          color={completed ? 'success' : 'warning'}
-          sx={{
-            backgroundColor: completed ? green[300] : orange[400],
-            color: 'white',
-            fontWeight: 'bold',
-            marginTop: 1
-          }}
-        />
+        {/* Chip with the status */}
+        <Box mt={2}>
+          <Chip
+            label={chipLabel}
+            color={chipColor}
+            variant="filled"
+            sx={{
+              backgroundColor: completed ? green[500] : orange[500],
+              color: 'white',
+              fontWeight: 'bold',
+            }}
+          />
+        </Box>
       </CardContent>
     </Card>
   );

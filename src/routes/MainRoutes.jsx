@@ -6,6 +6,7 @@ import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const Projects = Loadable(lazy(() => import('views/dashboard/Projects.jsx')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -14,9 +15,7 @@ const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
-
 const ProjectFormsTabs = Loadable(lazy(() => import('views/forms/ProjectFormTabs')));
-
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -34,15 +33,17 @@ const MainRoutes = {
         {
           path: 'default',
           element: <DashboardDefault />
-        }
+        },
+        {
+          path: 'projects',
+          element: <Projects />
+        },
       ]
     },
     {
       path: 'projectforms',
       element: <ProjectFormsTabs />
-    },
-    
-    
+    }
   ]
 };
 

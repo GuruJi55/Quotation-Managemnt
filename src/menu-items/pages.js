@@ -21,17 +21,7 @@ const pages = {
       icon: icons.IconKey,
       children: [
         {
-          id: 'logout',
-          title: 'Logout',
-          type: 'item',
-          url: '#', // prevent actual navigation
-          target: false,
-          onClick: () => {
-            const confirmed = window.confirm('Are you sure you want to exit?');
-            if (confirmed) {
-              window.location.href = '/pages/login'; // Full reload or use router navigation
-            }
-          }
+         
         }
         
         
@@ -41,4 +31,4 @@ const pages = {
   ]
 };
 
-export default pages;
+export default null;
