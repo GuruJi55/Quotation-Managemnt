@@ -72,7 +72,7 @@ export default function LoadSelectionForm({ projectId, onNext }) {
   const handleSubmit = () => {
     if (!validateForm()) return;
 
-    alert('Load Selection saved!');
+    
     if (onNext) onNext();
   };
 

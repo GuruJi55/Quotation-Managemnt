@@ -67,7 +67,7 @@ export default function SwitchSelectionForm({ projectId, onNext }) {
 
   const handleSubmit = () => {
     
-    alert('Project Info saved!');
+   
      // Trigger the onNext function to switch to the next tab
     if (onNext) {
       onNext();  // This will move to the next tab
